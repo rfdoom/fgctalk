@@ -11,6 +11,7 @@ const Home = () => {
 
     if (res.ok) {
       setChars(data)
+      console.log(data)
     }
   }
 

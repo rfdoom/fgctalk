@@ -1,4 +1,5 @@
 const Character = require('../models/charModels');
+const Comment = require('../models/comModels');
 const mongoose = require('mongoose');
 
 // get all characters
@@ -23,7 +24,7 @@ const getCharacter = async (req, res) => {
   const character = await Character.findById(id);
 
   if (!character) {
-    return res.status(404).json({err: err.message});
+    return res.status(404).json({error: 'Internal Server Error'});
   }
   res.status(200).json(character);
 }
@@ -73,11 +74,55 @@ const updateCharacter = async (req, res) => {
   res.status(200).json(character);
 }
 
+// add comment
+const addCommentToCharacter = async (req, res) => {
+  
+  try {
+    const { characterID, author, text } = req.body;
+    console.log(`characterid: ${characterID}, author: ${author}, text: ${text}`);
+    const newComment = new Comment({ author, text });
+
+    await newComment.save();
+
+    const character = await Character.findByIdAndUpdate(
+      characterID,
+      { $push: { comments: newComment._id }},
+      { new: true }
+    );
+    
+    res.json(character);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+// find comment
+const getComment = async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+
+    console.log(`commentid: ${commentId}`);
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    res.json(comment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 module.exports = {
   createCharacter,
   getCharacter,
   getCharacters, 
   deleteCharacter, 
-  updateCharacter
+  updateCharacter, 
+  addCommentToCharacter,
+  getComment
 }

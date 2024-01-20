@@ -10,17 +10,16 @@ const characterSchema = new Schema({
     type: String,
     required: true
   },
-  // image: {
-  //   type: String,
-  //   required: true
-  // },
-  // comments: [
-  //   {
-  //     text: String,
-  //     created: {type: Date, default: Data.now},
-  //     postedBy: {type: O}
-  //   }
-  //]
+  image: {
+    type: String,
+    required: false
+  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment'
+    }
+  ]
 }, {timestamps: true})
 
 module.exports = mongoose.model('Character', characterSchema);

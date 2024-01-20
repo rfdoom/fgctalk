@@ -13,7 +13,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use('/api/characters', characterRoutes);
+app.use('/api', characterRoutes);
 
 // connect to database
 async function connect() {
