@@ -99,22 +99,18 @@ const addCommentToCharacter = async (req, res) => {
 
 // find comment
 const getComment = async (req, res) => {
-  try {
-    const commentId = req.params.commentId;
+  const { id } = req.params;
 
-    console.log(`commentid: ${commentId}`);
-
-    const comment = await Comment.findById(commentId);
-
-    if (!comment) {
-      return res.status(404).json({ error: 'Comment not found' });
-    }
-
-    res.json(comment);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({err: 'Does not exist'})
   }
+
+  const comment = await Comment.findById(id);
+
+  if (!comment) {
+    return res.status(404).json({error: 'Internal Server Error'});
+  }
+  res.status(200).json(comment)
 }
 
 module.exports = {

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const CharDetails = ({ char }) => {
 
-  const dataToPass = {name: char.name, description: char.description};
+  const dataToPass = {name: char.name, description: char.description, comments: char.comments};
 
  return (
     <div className="pl-32 mt-10 ml-4 mr-10">
