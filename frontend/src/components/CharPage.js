@@ -6,7 +6,6 @@ import ComForm from '../components/ComForm';
 const CharPage = () => {
 
   let { state } = useLocation();
-  //console.log(state.data.dataToPass);
 
   const commentArr = state.data.dataToPass.comments;
   const commentStrings = [];
@@ -60,7 +59,7 @@ const CharPage = () => {
     }
   }
   
-  const confirmDelete = async () => {
+  const confirmDeleteChar = async () => {
     confirmAlert({
       title: 'Confirm to delete',
       message: 'Are you sure to do this? Once deleted, this cannot be undone.',
@@ -83,14 +82,44 @@ const CharPage = () => {
     setShowComForm((prevState) => !prevState);
   }
 
+  // const deleteCom = async () => {
+  //   try {
+  //     const response = await fetch('/')
+  //   } catch(error) {
+  //     console.error("Error: ", error.message);
+  //   }
+  // }
+
+  // const confirmDeleteCom = () => {
+  //   confirmAlert({
+  //     title: 'Confirm to delete',
+  //     message: 'Are you sure to do this? Once deleted, this cannot be undone.',
+  //     buttons: [
+  //       {
+  //         label: 'Yes',
+  //         className: 'btn btn-error mr-4',
+  //         onClick: () => deleteCom()
+  //       },
+  //       {
+  //         label: 'No',
+  //         className: 'btn btn-primary'
+  //       }
+  //     ]
+  //   })
+  // }
+
   return (
     <>
       <div>
-        <h1>Dynamic Page</h1>
         <p>Current Name: { state.data.dataToPass.name }</p>
         <p>Current Description: { state.data.dataToPass.description }</p>
         <p>Current Image: { state.data.dataToPass.image }</p>
       </div>
+      
+      <div>
+        <button onClick={ confirmDeleteChar } className="btn btn-error">Delete Character</button>
+      </div>
+      
       <section>
         <button onClick={ toggleComForm } className='btn btn-primary'>
           { showComForm ? 'Hide Comment Form' : 'Add Comment' }
@@ -99,22 +128,29 @@ const CharPage = () => {
           <ComForm key={state.data.dataToPass.id} id={state.data.dataToPass.id} />
         )}
       </section>
-      
+
       <div>
-        <button onClick={ confirmDelete } className="btn btn-error">Delete Character</button>
-      </div>
-      <div>
-        <h2>Comments:</h2>
         <ul>
           {parsedComments && parsedComments.map(comment => (
-            <li key={comment._id}>
-              <p><strong>ID:</strong> {comment._id}, {' '}</p>
-              <p><strong>Author:</strong> {comment.author}, {' '}</p>
-              <p><strong>Text:</strong> {comment.text}, {' '}</p>
-              <p><strong>CreatedAt:</strong> {comment.createdAt}, {' '}</p>
-            </li>
+            <div className='mt-10'>
+              <li key={comment._id}>
+                <div className="chat chat-start">
+                  <div className="chat-header">
+                    {comment.author}
+                  </div>
+                  <div className="chat-bubble">{comment.text}</div>
+                  <div className="chat-footer opacity-50">
+                    {comment.createdAt}
+                    <br />
+                    <button className='btn btn-sm'>Delete Comment</button>
+                  </div>
+                </div>
+              </li>
+             
+            </div>
           ))}
         </ul>
+
       </div>
       
     </>
