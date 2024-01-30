@@ -31,10 +31,10 @@ const getCharacter = async (req, res) => {
 
 // post character
 const createCharacter = async (req, res) => {
-  const {name, description} = req.body;
+  const {name, description, image} = req.body;
 
   try {
-    const character = await Character.create({name, description})
+    const character = await Character.create({name, description, image})
     res.status(200).json(character);
   } catch (err) {
     res.status(400).json({err: err.message});
