@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
+import ComForm from '../components/ComForm';
 
 const CharPage = () => {
 
@@ -10,6 +11,7 @@ const CharPage = () => {
   const commentArr = state.data.dataToPass.comments;
   const commentStrings = [];
   const [parsedComments, setParsedComments] = useState([]);
+  const [showComForm, setShowComForm] = useState(false);
 
   const parseComments = () => {
     const parsedCommentsArr = commentStrings.map(commentString => JSON.parse(commentString));
@@ -77,6 +79,10 @@ const CharPage = () => {
     });
   }
 
+  const toggleComForm = () => {
+    setShowComForm((prevState) => !prevState);
+  }
+
   return (
     <>
       <div>
@@ -84,6 +90,18 @@ const CharPage = () => {
         <p>Current Name: { state.data.dataToPass.name }</p>
         <p>Current Description: { state.data.dataToPass.description }</p>
         <p>Current Image: { state.data.dataToPass.image }</p>
+      </div>
+      <section>
+        <button onClick={ toggleComForm } className='btn btn-primary'>
+          { showComForm ? 'Hide Comment Form' : 'Add Comment' }
+        </button>
+        { showComForm && (
+          <ComForm key={state.data.dataToPass.id} id={state.data.dataToPass.id} />
+        )}
+      </section>
+      
+      <div>
+        <button onClick={ confirmDelete } className="btn btn-error">Delete Character</button>
       </div>
       <div>
         <h2>Comments:</h2>
@@ -98,9 +116,7 @@ const CharPage = () => {
           ))}
         </ul>
       </div>
-      <div>
-        <button onClick={ confirmDelete } className="btn btn-error">Delete Character</button>
-      </div>
+      
     </>
   )
 }

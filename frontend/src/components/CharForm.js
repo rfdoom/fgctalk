@@ -21,7 +21,6 @@ const CharacterForm = () => {
     e.preventDefault();
 
     try {
-      // Make an HTTP request to your Node.js server to add a new character
       const response = await fetch('/api/characters', {
         method: 'POST',
         headers: {
@@ -31,7 +30,6 @@ const CharacterForm = () => {
       });
 
       if (response.ok) {
-        // Optionally, you can redirect or perform additional actions upon success
         console.log('Character added successfully!');
         navigate('/');
       } else {
@@ -43,7 +41,7 @@ const CharacterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8">
+    <form onSubmit={ handleSubmit } className="mt-8">
       <label>
         Name:
         <input
@@ -51,8 +49,8 @@ const CharacterForm = () => {
           name="name"
           placeholder="name here"
           className="input input-bordered input-primary w-full max-w-xs mb-4 ml-4"
-          value={characterData.name}
-          onChange={handleChange}
+          value={ characterData.name }
+          onChange={ handleChange }
         />
       </label>
       <br />
@@ -62,8 +60,8 @@ const CharacterForm = () => {
           name="description"
           placeholder="description here"
           className="textarea textarea-primary ml-2"
-          value={characterData.description}
-          onChange={handleChange}
+          value={ characterData.description }
+          onChange={ handleChange }
         />
       </label>
       <br />
@@ -74,8 +72,8 @@ const CharacterForm = () => {
           name="image"
           placeholder="image link here"
           className="input input-bordered input-primary w-full max-w-xs mt-4"
-          value={characterData.image}
-          onChange={handleChange}
+          value={ characterData.image }
+          onChange={ handleChange }
         />
       </label>
       <br />
